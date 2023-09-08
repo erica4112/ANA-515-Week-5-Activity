@@ -1,0 +1,79 @@
+---
+title: 'Assignment: Week 5 Visualizations Activity'
+author: "Erica Peng"
+date: "2023-09-08"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    theme:
+      bootswatch: spacelab
+---
+
+```{r setup, include=FALSE}
+
+install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+install.packages("knitr", repos = "http://cran.us.r-project.org")
+install.packages("bslib", repos = "http://cran.us.r-project.org")
+
+library(tidyverse)
+
+library(knitr)
+
+
+data <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/fifa/fifa_countries_audience.csv")
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r, include=FALSE}
+#.	Code chunk to create a subset of countries
+
+# Assuming 'data' is your original data frame from the CSV file
+# Create a new dataset named 'filtered'
+filtered <- data %>%
+  filter(population_share <= 1.0)
+
+# Display the structure of the 'filtered' data frame
+str(filtered)
+
+# Display the first few rows of the 'filtered' data frame
+head(filtered)
+
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r echo=FALSE}
+# Using the summary() function
+summary(filtered)
+
+
+```
+
+```{r echo=FALSE}
+#	Write inline code 
+```
+
+We have data about `r nrow(data)` countries. Only `r nrow(data) - nrow(filtered)`  have a population share of greater than 1.0. The distribution of this is shown below: 
+
+## Including Plots
+```{r}
+
+# Create a histogram of one variable (e.g., 'mpg')
+hist(filtered$population_share, main = "Histogram of population_share", xlab = "population_share", ylab = "Frequency")
+
+# Create a scatterplot of two variables (e.g., 'mpg' vs. 'hp')
+plot(filtered$population_share, mtcars$gdp_weighted_share, main = "Scatterplot of population_share vs. gdp_weighted_share", 
+     xlab = "population_share", ylab = "gdp_weighted_share")
+
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
